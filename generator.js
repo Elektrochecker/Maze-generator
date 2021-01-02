@@ -1,4 +1,4 @@
-let active = [0, 0];
+let active = [12, 8];
 let visited = [
   [...active]
 ];
