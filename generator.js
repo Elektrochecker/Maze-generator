@@ -1,4 +1,8 @@
-let active = [12, 8];
+let active = [1, 1];
+// let active = [
+//   Math.floor(Math.random() * 10) + 1,
+//   Math.floor(Math.random() * 10) + 1
+// ]
 let visited = [
   [...active]
 ];
@@ -6,28 +10,23 @@ let activeVisited = [];
 let previous = [
   [...active]
 ];
+let visitedColor = 0;
 
 function generate() {
   visited.push([...active]);
-  // console.log(visited);
   checkVisited();
 
   if (activeVisited.length >= 4) {
-    console.log("all visited " + activeVisited);
     active = previous.pop();
     return false;
   }
   let n = newRandom(checkVisited()[0], checkVisited()[1], checkVisited()[2]);
-  // console.log(checkVisited());
-  // console.log(n);
 
   if (removeWall(active[0], active[1], n)) {
-    // console.log("remove " + n);
     previous.push([...active]);
     newActive(n);
     return true;
   } else {
-    // console.log("back " + activeVisited);
     active = previous.pop();
     return false;
   }
@@ -66,7 +65,6 @@ function checkVisited() {
 }
 
 function newActive(a) {
-  // console.log("newActive");
   switch (a) {
     case 0:
       active[1]--;
@@ -85,51 +83,24 @@ function newActive(a) {
 }
 
 function removeWall(x, y, wall) {
-  //console.log("removeWall");
   let xlimit = width / scl - 1;
   let ylimit = height / scl - 1;
 
   if (y == 0 && wall == 0) {
-    // if (x == 0) {
-    //   return false;
-    // } else if (x >= xlimit && wall == 1) {
-    //   return false;
-    // } else {
     return false;
   }
-  // }
 
   if (x == 0 && wall == 3) {
-    // if (y >= ylimit) {
-    //   return false;
-    // } else if (y == 0) {
-    //   return false;
-    // } else {
     return false;
   }
-  // }
 
   if (y >= ylimit && wall == 2) {
-    // if (x >= xlimit) {
-    //   return false;
-    // } else if (x == 0) {
-    //   return false;
-    // } else {
     return false;
   }
-  // }
 
   if (x >= xlimit && wall == 1) {
-    // if (y == 0) {
-    //   return false;
-    // } else if (y >= ylimit) {
-    //   return false;
-    // } else {
     return false;
   }
-  // }
-
-  //console.log(wall);
 
   switch (wall) {
     case 0:
@@ -162,7 +133,21 @@ function preVisit() {
 
 function drawVisited() {
   for (let i = 0; i < visited.length; i++) {
+    // fill(visitedColor);
     fill(200);
     rect(visited[i][0] * scl, visited[i][1] * scl, scl, scl);
+  }
+}
+
+function randomStart() {
+  x = Math.floor(Math.random() * width / scl);
+  y = Math.floor(Math.random() * height / scl);
+  return [x, y];
+}
+
+function drawPrevious() {
+  for (let i = 0; i < previous.length; i++) {
+    fill(pcolor);
+    rect(previous[i][0] * scl, previous[i][1] * scl, scl, scl);
   }
 }
