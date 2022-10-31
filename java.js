@@ -1,4 +1,4 @@
-const scl = 10;
+const scl = 20;
 var cells = [];
 let start = [0, 0];
 let goal = [];
