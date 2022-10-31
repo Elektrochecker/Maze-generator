@@ -2,8 +2,8 @@ const scl = 20;
 var cells = [];
 let start = [0, 0];
 let goal = [];
-const w = 600;
-const h = 400;
+const w = 1200;
+const h = 800;
 let pcolor = [100, 100, 200];
 let showEnds = false;
 
