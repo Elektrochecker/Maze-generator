@@ -4,14 +4,23 @@
 
 <head></head>
 
-<body style="background-color:rgb(66, 66, 66);">
-	<script src="generator.js"></script>
-	<script src="java.js"></script>
-	<!-- <script src="./libraries/p5.js"></script>
-	<script src="./libraries/p5.dom.js"></script> -->
-	<script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
-	<!-- <script src="./libraries/p5.sound.js"></script> -->
-	<!-- <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script> -->
+<body style="background-color:#424242;">
+    
+    <div>
+        <button id="save-button">save image</button>
+        <button id="ends-button">show/hide ends</button>
+    </div>
+
+    <div>
+        <input type="range" id="extra-slider" name="extra-slider" min="0" max="60" value="0" />
+        <label style="color:white" for="extra-slider">extra connection chance</label>
+    </div>
+
+    <script src="dom.js"></script>
+    <script src="generator.js"></script>
+    <script src="java.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+
 </body>
 
 </html>

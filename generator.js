@@ -151,3 +151,66 @@ function drawPrevious() {
     rect(previous[i][0] * scl, previous[i][1] * scl, scl, scl);
   }
 }
+
+function removeRandomWall(x, y) {
+  let wall = Math.floor(Math.random() * 4);
+
+  let xlimit = width / scl - 1;
+  let ylimit = height / scl - 1;
+
+  if (y == 0 && wall == 0) {
+    if (x == 0) {
+      wall = newRandom(0, 3);
+    } else if (x >= xlimit && wall == 1) {
+      wall = newRandom(0, 1);
+    } else {
+      wall = newRandom(0);
+    }
+  }
+
+  if (x == 0 && wall == 3) {
+    if (y >= ylimit) {
+      wall = newRandom(3, 2);
+    } else if (y == 0) {
+      wall = newRandom(0, 3);
+    } else {
+      wall = newRandom(3);
+    }
+  }
+
+  if (y >= ylimit && wall == 2) {
+    if (x >= xlimit) {
+      wall = newRandom(1, 2);
+    } else if (x == 0) {
+      wall = newRandom(2, 3);
+    } else {
+      wall = newRandom(2);
+    }
+  }
+
+  if (x >= xlimit && wall == 1) {
+    if (y == 0) {
+      wall = newRandom(0, 1);
+    } else if (y >= ylimit) {
+      wall = newRandom(1, 2);
+    } else {
+      wall = newRandom(1);
+    }
+  }
+
+  switch (wall) {
+    case 0:
+      cells[y - 1][x][2] = false;
+      break;
+    case 1:
+      cells[y][x + 1][3] = false;
+      break;
+    case 2:
+      cells[y + 1][x][0] = false;
+      break;
+    case 3:
+      cells[y][x - 1][1] = false;
+  }
+  cells[y][x][wall] = false;
+  return wall;
+}

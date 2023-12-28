@@ -1,15 +1,16 @@
-const scl = 20;
+let scl = 20;
 var cells = [];
 let start = [0, 0];
 let goal = [];
-const w = 1200;
-const h = 800;
+let w = 32*scl;
+let h = 20*scl;
 let pcolor = [100, 100, 200];
 let showEnds = false;
 
+let goSignal = false;
+
 function setup() {
   frameRate(24);
-  // preVisit();
 
   createCanvas(w, h);
   background(100);
@@ -26,6 +27,7 @@ function setup() {
 
 
 function draw() {
+  strokeWeight(8);
   background(100);
   generate();
   drawVisited();
@@ -64,70 +66,6 @@ function drawWalls() {
   }
 }
 
-function removeRandomWall(x, y) {
-  let wall = Math.floor(Math.random() * 4);
-
-  let xlimit = width / scl - 1;
-  let ylimit = height / scl - 1;
-
-  if (y == 0 && wall == 0) {
-    if (x == 0) {
-      wall = newRandom(0, 3);
-    } else if (x >= xlimit && wall == 1) {
-      wall = newRandom(0, 1);
-    } else {
-      wall = newRandom(0);
-    }
-  }
-
-  if (x == 0 && wall == 3) {
-    if (y >= ylimit) {
-      wall = newRandom(3, 2);
-    } else if (y == 0) {
-      wall = newRandom(0, 3);
-    } else {
-      wall = newRandom(3);
-    }
-  }
-
-  if (y >= ylimit && wall == 2) {
-    if (x >= xlimit) {
-      wall = newRandom(1, 2);
-    } else if (x == 0) {
-      wall = newRandom(2, 3);
-    } else {
-      wall = newRandom(2);
-    }
-  }
-
-  if (x >= xlimit && wall == 1) {
-    if (y == 0) {
-      wall = newRandom(0, 1);
-    } else if (y >= ylimit) {
-      wall = newRandom(1, 2);
-    } else {
-      wall = newRandom(1);
-    }
-  }
-
-  //console.log(wall);
-
-  switch (wall) {
-    case 0:
-      cells[y - 1][x][2] = false;
-      break;
-    case 1:
-      cells[y][x + 1][3] = false;
-      break;
-    case 2:
-      cells[y + 1][x][0] = false;
-      break;
-    case 3:
-      cells[y][x - 1][1] = false;
-  }
-  cells[y][x][wall] = false;
-  return wall;
-}
 
 //returns random value that is not equal to any parameter
 function newRandom(in1, in2, in3) {
@@ -138,17 +76,20 @@ function newRandom(in1, in2, in3) {
   return n;
 }
 
-function randomMaze(q = 1) {
-  for (var i = 0; i < q; i++) {
+function randomMaze(chance) {
     for (var y = 0; y < height / scl; y++) {
-      for (var x = 0; x < width / scl; x++) {
-        removeRandomWall(x, y);
-      }
+        for (var x = 0; x < width / scl; x++) {
+            if (Math.random() < chance) {
+              removeRandomWall(x, y);
+            }
+        }
     }
-  }
 }
 
 let drawActive = r => {
+  if(!active) {
+    finish()
+  }
   fill(0, 0, 150);
   noStroke();
   ellipseMode(CENTER);
@@ -177,6 +118,16 @@ function randomColor() {
   return [r, g, b];
 }
 
-function touchStarted() {
-  showEnds = !showEnds;
+let finish = () => {
+  chance = extraSlider.value / 100
+  randomMaze(chance)
+  
+  strokeWeight(8);
+  background(200);
+  drawWalls();
+
+  console.log("maze generator finished")
+  active = [-1, -1]
+
+  draw = () => {}
 }
